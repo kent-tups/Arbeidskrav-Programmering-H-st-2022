@@ -5,9 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landsbysimulator 2022</title>
+    <!-- Du trenger ikke gjøre noe med CSS-koden! -->
     <link rel="stylesheet" href="css-skal-ikke-roeres/index.css">
 </head>
-    <body>
+<body>
 
     <div id="container">     
         
@@ -31,12 +32,11 @@
         <img id="warrior-1" src="images/warrior.png">
 
         <!-- Her legger man til bilder av bygninger. -->
-        <div id="building-1-div"><img src="images/building-1.png"></div>    
-        <div id="building-2-div"><img src="images/building-3.png"></div>  
+        <div id="building-div"></div>    
 
 
         <!-- Her legger man til monstre (cute-wolfman.png). -->
-        <div id="monster-div"><img src="images/cute-wolfman.png"></div>
+        <div id="monster-div"></div>
 
 
         <!-- Denne metallgruven skal man kunne klikke på for å få metall -->
@@ -53,46 +53,35 @@
 
     <!-- Her skrives det ut informasjon om hva brukeren gjør og hva som skjer. -->
     <div id="output-div">
-        <p> <!-- Her skal det skrives ut hva som skjer underveis i spillet. For eksempel "Hugget tre, fikk 20 treverkressurser", 
-            "Monster angriper og tar 10hp" osv. Man skal legge til += tekst for å utvide, men siste beskjed skal dukke opp øverst. -->
-
-        </p>
+        <p> Event Log </p>
     </div>
     
     <script>
-        
-        // start of var's
+
         var outputDiv = document.getElementById("output-div")
         var metalMine = document.getElementById("metal-mine")
         var materialInfoDiv = document.getElementById("material-info")
-        // denne skal legges inn i btn function
-        var building1 = document.getElementById("building-1-div")
-        // ^^^^^^^^
+        var buildingDiv = document.getElementById("building-div")
+        var monsterDiv = document.getElementById("monster-div")
+        antallbygninger = 0
+        var clicker = 0;
+        
 
-        // start of getmetal
-        var metaloutputDiv = ""
         var metal = 0;
         var metalGather = 10;
 
         metalMine.onclick = function getMetal(){
-        if(metal < metalGather){
+            clicker++;
             metal = metal += metalGather;
+            outputDiv.innerHTML = null;
             materialInfoDiv.innerHTML = `
-            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. Antall bygninger: 0. Styrke: 0 
-            </p>`
-            outputDiv.innerHTML += `<p> Du har fått ${metal} metall!</p>`
-            
-            }else{
-            metal = metal += metalGather;
-            materialInfoDiv.innerHTML = `
-            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. Antall bygninger: 0. Styrke: 0 
-            </p>`
-            outputDiv.innerHTML += `<p> Du har fått ${metal} metall!</p>`
-            };
-        }    
-        /* end of getMetal function */
+            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                Antall bygninger: ${antallbygninger}. Styrke: 0. Clicks ${clicker} 
+            </p>`;
+            outputDiv.innerHTML += `<p> Du har fått 10 metall!</p>`;
+            }
 
-        /* trees var's start */
+            /* trees var's start */
         var showTrees1 = document.getElementById("tree-1");
         var showTrees2 = document.getElementById("tree-2");
         var showTrees3= document.getElementById("tree-3");
@@ -103,36 +92,63 @@
 
         // start of treetekstDiv
         function treeTekstDiv(){
-            outputDiv.innerHTML += `<p> Du har fått ${trees} Treverk!</p>`
+            outputDiv.innerHTML = null
+            outputDiv.innerHTML += `<p> Du har fått 25 Treverk!</p>`
             materialInfoDiv.innerHTML = `
-            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. Antall bygninger: 0. Styrke: 10 
+            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                Antall bygninger: ${antallbygninger}. Styrke: 10. Clicks ${clicker} 
             </p>`
         }
         // end of treetekstDiv
 
         // start of getTrees function
-            function getTrees(){
-            if(this.id === "tree-1", "tree-2", "tree-3"){
-                trees = trees += amountOfTrees
-                treeTekstDiv()
+
+        treeClicks = 0;
+        function getTrees(){
+            if(this.id === showTrees1, showTrees2, showTrees3){
+                trees = trees += amountOfTrees;
+                treeTekstDiv();
+                clicker = clicker + 1;
+                treeClicks++;
             }
         }
+
+        
+        // start of buying buttons
+        var buyBuilding1Btn = document.getElementById("buy-building-1-btn")
+        building1MetalPrice = 10;
+        building1TreePrice = 50;
+
+        buyBuilding1Btn.onclick = function addBuilding1(){
+            if ( metal >= building1MetalPrice, trees >= building1TreePrice ){
+                antallbygninger++;
+                clicker++;
+                metal = metal - building1MetalPrice;
+                trees = trees - building1TreePrice;
+                buildingDiv.innerHTML += `<img src="images/building-1.png"> `;
+                materialInfoDiv.innerHTML = `<p> 
+                    Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                    Antall bygninger: ${antallbygninger}. Styrke: 10. Clicks ${clicker} 
+                </p>`;
+                outputDiv.innerHTML += `<p>Du har kjøpt en bygning!</p> `;
+            }else{
+                alert("Du har ikke nok ressurser!")
+            }
+        }
+        // end 
+
+        // function stylebuilding1(){
+        //     building1Div.style.height = "200px";
+        // }
+        // stylebuilding1();
+
         // end trees function
-
-        // start of stylebuilding1
-        function stylebuilding1(){
-            building1.style.width = "10px";
-            building1.style.height = "5px";
-        };
-        // end of stylebuilding1
-
         //  START EVENTS
         showTrees1.onclick = getTrees;
         showTrees2.onclick = getTrees;
         showTrees3.onclick = getTrees;
         // END EVENTS
 
-        
     </script>
 </body>
 </html>
