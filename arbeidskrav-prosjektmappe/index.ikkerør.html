@@ -14,11 +14,11 @@
         
         <div id="info-div">
             <div id="life-bar-box">
-                <p id="life-bar">300hp</p><!-- Dette er selve livet (grønne baren). -->
+                <p id="life-bar">300</p><!-- Dette er selve livet (grønne baren). -->
             </div>
 
             <!-- Denne p-tagen inneholder informasjon om hvor mye tre og metall man har. -->
-            <p id="material-info">Treverk: 0 enheter. Metall: 0 enheter. Antall bygninger: 0. Styrke: 10</p>
+            <p id="material-info">Treverk: 0 enheter. Metall: 0 enheter. Antall bygninger: 0. Styrke: 10. Actions 0.</p>
         </div>
 
 
@@ -53,42 +53,57 @@
 
     <!-- Her skrives det ut informasjon om hva brukeren gjør og hva som skjer. -->
     <div id="output-div">
-        <p> Event Log </p>
+        <p> </p>
     </div>
     
     <script>
-
+        // start of variabler
         var outputDiv = document.getElementById("output-div")
         var metalMine = document.getElementById("metal-mine")
         var materialInfoDiv = document.getElementById("material-info")
         var buildingDiv = document.getElementById("building-div")
         var monsterDiv = document.getElementById("monster-div")
-        antallbygninger = 0
-        var clicker = 0;
-        
-
-        var metal = 0;
-        var metalGather = 10;
-
-        metalMine.onclick = function getMetal(){
-            clicker++;
-            metal = metal += metalGather;
-            outputDiv.innerHTML = null;
-            materialInfoDiv.innerHTML = `
-            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. 
-                Antall bygninger: ${antallbygninger}. Styrke: 0. Clicks ${clicker} 
-            </p>`;
-            outputDiv.innerHTML += `<p> Du har fått 10 metall!</p>`;
-            }
-
-            /* trees var's start */
+        var buyBuilding1Btn = document.getElementById("buy-building-1-btn")
         var showTrees1 = document.getElementById("tree-1");
         var showTrees2 = document.getElementById("tree-2");
         var showTrees3= document.getElementById("tree-3");
+        var buyBuilding2Btn = document.getElementById("buy-building-2-btn")
+        var swordBtn = document.getElementById("buy-sword-btn")
+        // end of var's 
 
-        var trees = 0;
-        var amountOfTrees = 25;
-        // tree var's end
+        // start of number var's 
+        lifeBar = 300; 
+        monsterDamage = 30;
+        antallbygninger = 0
+        actions = 0;
+        building1MetalPrice = 10;
+        building1TreePrice = 50;
+        building2MetalPrice = 30;
+        building2TreePrice = 150;
+        metal = 0;
+        metalGather = 10;
+        trees = 0;
+        amountOfTrees = 25;
+        tree1Clicks = 0;
+        tree2Clicks = 0;
+        tree3Clicks = 0;
+        styrke = 10;
+        swordPrice = 200;
+        deleteTree1Value = 10;
+        // end 
+
+        // start of metalMine function 
+        metalMine.onclick = function getMetal(){
+            actions++;
+            metal = metal += metalGather;
+            outputDiv.innerHTML = null
+            materialInfoDiv.innerHTML = `
+            <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                Antall bygninger: ${antallbygninger}. Styrke: ${styrke}. Actions ${actions} 
+            </p>`;
+            outputDiv.innerHTML += `<p> Du har fått 10 metall!</p>`;
+            }
+        // end 
 
         // start of treetekstDiv
         function treeTekstDiv(){
@@ -96,58 +111,112 @@
             outputDiv.innerHTML += `<p> Du har fått 25 Treverk!</p>`
             materialInfoDiv.innerHTML = `
             <p> Treverk: ${trees} enheter. Metall: ${metal} enheter. 
-                Antall bygninger: ${antallbygninger}. Styrke: 10. Clicks ${clicker} 
+                Antall bygninger: ${antallbygninger}. Styrke: ${styrke}. Actions ${actions} 
             </p>`
         }
         // end of treetekstDiv
 
-        // start of getTrees function
+        function removeTree1(ele){
+                ele.parentNode.removeChild(ele);
+                }
 
-        treeClicks = 0;
-        function getTrees(){
-            if(this.id === showTrees1, showTrees2, showTrees3){
+        // start of getTrees1-3 function;
+        showTrees1.onclick = function getTrees1(){
                 trees = trees += amountOfTrees;
+                actions = actions + 1;
+                tree1Clicks++;
                 treeTekstDiv();
-                clicker = clicker + 1;
-                treeClicks++;
+                // function removeTree1(ele){
+                // ele.parentNode.removeChild(ele);
+                // }
+                // removeTree1(document.getElementById("tree-1"));
+                if(tree1Clicks >= deleteTree1Value){
+                removeTree1(document.getElementById("tree-1"));
+            }}
+
+            showTrees2.onclick = function getTrees2(){
+                trees = trees += amountOfTrees;
+                actions = actions + 1;
+                tree2Clicks++;
+                treeTekstDiv();
+                // function removeTree1(ele){
+                // ele.parentNode.removeChild(ele);
+                // }
+                // removeTree1(document.getElementById("tree-1"));
+                if(tree2Clicks >= deleteTree1Value){
+                removeTree1(document.getElementById("tree-2"));
+            }}
+
+            showTrees3.onclick = function getTrees3(){
+                trees = trees += amountOfTrees;
+                actions = actions + 1;
+                tree3Clicks++;
+                treeTekstDiv();
+                // function removeTree1(ele){
+                // ele.parentNode.removeChild(ele);
+                // }
+                // removeTree1(document.getElementById("tree-1"));
+                if(tree3Clicks >= deleteTree1Value){
+                removeTree1(document.getElementById("tree-3"));
             }
         }
+        // end 
 
-        
-        // start of buying buttons
-        var buyBuilding1Btn = document.getElementById("buy-building-1-btn")
-        building1MetalPrice = 10;
-        building1TreePrice = 50;
-
+        // start of buybuilding1Btn
         buyBuilding1Btn.onclick = function addBuilding1(){
             if ( metal >= building1MetalPrice, trees >= building1TreePrice ){
                 antallbygninger++;
-                clicker++;
+                actions++;
                 metal = metal - building1MetalPrice;
                 trees = trees - building1TreePrice;
                 buildingDiv.innerHTML += `<img src="images/building-1.png"> `;
                 materialInfoDiv.innerHTML = `<p> 
                     Treverk: ${trees} enheter. Metall: ${metal} enheter. 
-                    Antall bygninger: ${antallbygninger}. Styrke: 10. Clicks ${clicker} 
+                    Antall bygninger: ${antallbygninger}. Styrke: ${styrke}. Actions ${actions} 
                 </p>`;
                 outputDiv.innerHTML += `<p>Du har kjøpt en bygning!</p> `;
             }else{
-                alert("Du har ikke nok ressurser!")
+                outputDiv.innerHTML += `<p>Du har ikke nok ressurser!</p> `;
             }
         }
         // end 
 
-        // function stylebuilding1(){
-        //     building1Div.style.height = "200px";
-        // }
-        // stylebuilding1();
-
+        buyBuilding2Btn.onclick = function addBuilding2(){
+            if ( metal >= building2MetalPrice, trees >= building2TreePrice ){
+                antallbygninger++;
+                actions++;
+                metal = metal - building2MetalPrice;
+                trees = trees - building2TreePrice;
+                buildingDiv.innerHTML += `<img src="images/building-3.png"> `;
+                materialInfoDiv.innerHTML = `<p> 
+                    Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                    Antall bygninger: ${antallbygninger}. Styrke: ${styrke}. Actions ${actions} 
+                </p>`;
+                outputDiv.innerHTML += `<p>Du har kjøpt en bygning!</p> `;
+            }else{
+                outputDiv.innerHTML += `<p>Du har ikke nok ressurser!</p> `;
+            }
+        }
         // end trees function
-        //  START EVENTS
-        showTrees1.onclick = getTrees;
-        showTrees2.onclick = getTrees;
-        showTrees3.onclick = getTrees;
-        // END EVENTS
+
+        // start of buySword function 
+        swordBtn.onclick = function buySword(){
+            if ( metal >= swordPrice ){
+                actions++;
+                metal = metal - swordPrice;
+                styrke = styrke + 30;
+                buildingDiv.innerHTML += `<img src="images/sword.png"> `;
+                materialInfoDiv.innerHTML = `<p> 
+                    Treverk: ${trees} enheter. Metall: ${metal} enheter. 
+                    Antall bygninger: ${antallbygninger}. Styrke: ${styrke}. Actions ${actions} 
+                </p>`;
+                actions++;
+                outputDiv.innerHTML += `<p>Du har kjøpt et sverd og styrken din har gått opp!</p> `;
+            }else if(swordPrice > metal){
+                outputDiv.innerHTML += `<p>Du har ikke nok ressurser!</p> `;
+            }
+            }
+        // end 
 
     </script>
 </body>
