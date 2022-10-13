@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="123">
+      <div id="monster-div2" type="button"></div>
+    </div>
+
+    <script>
+      //document.getElementById("demo").innerHTML = Math.floor(Math.random() * 3+1);
+
+      var monster = document.getElementById("monster-div2");
+      var xd = document.getElementById("123");
+
+      monsterLivesContainer = 0;
+
+      var monsterLives = 40;
+
+      function myMonsters() {
+        let text = "";
+        for (let i = 0; i < Math.floor(Math.random() * 3 + 1); i++) {
+          text += "<img src='images/cute-mummy.png' >" + i;
+          document.getElementById("monster-div2").innerHTML = text;
+          monsterLivesContainer += monsterLives;
+        }
+      }
+      function kill() {
+        monsterLivesContainer -= 10;
+        console.log(monsterLivesContainer);
+      }
+      myMonsters();
+
+      monster.onlick = kill;
+
+      console.log(monsterLivesContainer);
+    </script>
+  </body>
+</html>
