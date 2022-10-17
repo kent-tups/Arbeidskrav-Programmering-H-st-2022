@@ -35,7 +35,6 @@
         <!-- Her legger man til bilder av bygninger. -->
         <div id="building-div"></div>
 
-
         <!-- Her legger man til monstre (cute-wolfman.png). -->
         <div id="monster-div" type="button"></div>
 
@@ -103,7 +102,10 @@
         // start of gameover function 
         function gameOver(){
             if(lifeBar <= 0){
-                alert("Game Over!")
+                window.open(
+                `Game Over!`, 
+                '_blank'
+                );
             }
         }
         // end 
@@ -111,7 +113,7 @@
         // start gameComplete 
         function gameComplete(){
             if(antallbygninger >= 10){
-                alert("Gratulerer, du har gjennomgått spillet ved å bygge ferdig landsdelen!")
+                window.alert("Gratulerer, du har gjennomgått spillet ved å bygge ferdig landsdelen!")
             }
         }
         // end 
@@ -270,13 +272,18 @@
         function myMonsters(){
         for (let i = 0; i < Math.floor(Math.random() * 3 + 1); i++) {
           monsterDiv.innerHTML += `<img src="images/cute-wolfman.png" onclick="kill()"> `;
-          monsterLivesContainer += monsterLives;
+          monsterLivesContainer = monsterLivesContainer + monsterLives;
           outputDiv.innerHTML += `<p>Monster har kommet og angrepet!!!</p> `;
         }if(actions++){
             lifeBar = lifeBar - 40;
             lifeBarDiv.innerHTML = `<p>${lifeBar}</p> `;
+        }else if(monsterLivesContainer <=0){
+            for (let i = 0; i < Math.floor(Math.random() * 3 + 1); i++) {
+          monsterDiv.innerHTML += `<img src="images/cute-wolfman.png" onclick="kill()"> `;
+          monsterLivesContainer = monsterLivesContainer + monsterLives;
+          outputDiv.innerHTML += `<p>Monster har kommet og angrepet!!!</p> `;
         }
-        }
+        }}  
         // end 
 
         // start kill function 
@@ -290,6 +297,13 @@
             outputDiv.innerHTML += `<p>Du har beseiret fienden!</p> `;
         }
         }
+        // end 
+
+        function stylehealthPotionBtn(){
+            healthPotionBtn.style.width ="200px";
+            healthPotionBtn.style.height="140px";
+        }
+        stylehealthPotionBtn();
         // end 
     </script>
 </body>
